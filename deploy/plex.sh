@@ -15,6 +15,10 @@
 # PLEX_sudo_required -- 1 = True, 0 = False. You may need to add "plex ALL=(ALL) NOPASSWD:/bin/systemctl restart plexmediaserver.service" to your sudo'ers file
 # PLEX_RELOAD -- Optional custom command to restart Plex. If not set, the script will try
 #                to restart the service via systemctl when Plex is detected as active.
+#
+# For Synology NAS, set:
+#   PLEX_PKCS12_file -- e.g. /usr/local/share/Plex/plex_cert.pfx
+#   PLEX_RELOAD -- e.g. /usr/syno/bin/synopkg restart PlexMediaServer
 
 ########  Public functions #####################
 
@@ -57,7 +61,7 @@ plex_deploy() {
     #_err "See: $_DEPLOY_PLEX_WIKI"
     return 1
   fi
-  _debug2 PLEX_PKCS12_password "$PLEX_PKCS12_password"
+  _secure_debug2 PLEX_PKCS12_password "$PLEX_PKCS12_password"
 
   if [ -z "$PLEX_PKCS12_file" ]; then
     PLEX_PKCS12_file="$DOMAIN_PATH/$_cdomain.pfx"
